@@ -60,3 +60,33 @@ button:not(:disabled):active {
 button:focus {
 	border-color: #666;
 }
+
+
+.btn{
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5%;
+	cursor: pointer;
+	/* color: black; */
+	background-color: black;
+	font-size: small;
+}
+
+.btn-primary{
+	background-color: blue!important;
+}
+
+.btn-danger{
+	background-color: red;
+}
+
+.btn-success{
+	background-color: green;
+}
+
+
+a.btn{
+	color: white;
+	text-decoration: none;
+}
