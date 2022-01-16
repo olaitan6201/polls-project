@@ -46,8 +46,10 @@
         }
 
         // Add a new Poll
-        if(valid)
-        dispatch('', fields);
+        if(valid){
+            let poll = {...fields, votesA: 0, votesB: 0, id: Math.random()};
+            dispatch('onAddPoll', poll);
+        }
     }
 </script>
 
