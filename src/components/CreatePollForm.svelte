@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import Button from '../shared/Button.svelte';
 
     let dispatch = createEventDispatcher();
 
@@ -27,7 +28,10 @@
         <label for="answer-b">Answer B:</label>
         <input type="text" id="answer-b" bind:value={fields.answerB}>
     </div>
-    <button class="btn btn-success">Add Poll</button>
+    <!-- <button class="btn btn-success">Add Poll</button> -->
+    <Button type="secondary">
+        Add Poll
+    </Button>
 </form>
 
 <style>
