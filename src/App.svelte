@@ -36,6 +36,16 @@
 		activeItem = 'Current Polls';
 	}
 	
+	const castVote = (e) => {
+		const { id, opt } = e.detail;
+		let copiedPolls = [...polls];
+		let upvotedPoll = copiedPolls.find((poll) => poll.id == id);
+
+		if(opt === 'a') upvotedPoll.votesA++;
+		if(opt === 'b') upvotedPoll.votesB++;
+
+		polls = copiedPolls;
+	}
 </script>
 
 <Header />
@@ -43,7 +53,7 @@
 	<Tabs {activeItem} {items} on:onTabChanged={changeTab}/>
 
 	{#if activeItem === 'Current Polls'}
-		<PollList {polls}/>
+		<PollList {polls} on:vote={castVote}/>
 	{:else if activeItem === 'Add New Poll'}
 		<CreatePollForm on:onAddPoll={addPoll}/>
 	{/if}
