@@ -2,14 +2,22 @@
     import PollStore from '../stores/PollStore';
     import Card from '../shared/Card.svelte';
     import Button from '../shared/Button.svelte';
+    import { tweened } from "svelte/motion";
 
     export let poll;
 
 
     //reactive values
     $: totalVotes = poll.votesA + poll.votesB;
-    $: percentageA = Math.floor(100 / totalVotes * poll.votesA);
-    $: percentageB = Math.floor(100 / totalVotes * poll.votesB);
+    $: percentageA = Math.floor(100 / totalVotes * poll.votesA) || 0;
+    $: percentageB = Math.floor(100 / totalVotes * poll.votesB) || 0;
+
+    //tweened percentages
+    const tweenedA = tweened(0);
+    const tweenedB = tweened(0);
+
+    $: tweenedA.set(percentageA);
+    $: tweenedB.set(percentageB);
 
     //Handling Vote
     const handleVote = (opt, id) => {
@@ -35,11 +43,21 @@
         <h3>{ poll.question }</h3>
         <p>Total votes: {totalVotes}</p>
         <div class="answer" on:click={() => handleVote('a', poll.id)}>
-            <div class="percent percent-a" style="width: {percentageA}%"></div>
+            <div 
+                class="percent percent-a" 
+                style="width: {$tweenedA}%"
+                class:danger={percentageA < percentageB}
+                class:success={percentageA > percentageB || percentageB == percentageA}
+            ></div>
             <span>{poll.answerA} ({poll.votesA})</span>
         </div>
         <div class="answer" on:click={() => handleVote('b', poll.id)}>
-            <div class="percent percent-b" style="width: {percentageB}%"></div>
+            <div 
+                class="percent percent-b" 
+                style="width: {$tweenedB}%"
+                class:danger={percentageB < percentageA}
+                class:success={percentageB > percentageA || percentageB == percentageA}
+            ></div>
             <span>{poll.answerB} ({poll.votesB})</span>
         </div>
         <div class="delete">
@@ -77,11 +95,11 @@
         position: absolute;
         box-sizing: border-box;
     }
-    .percent-a{
+    .danger{
         border-left: 4px solid #d91b42;
         background-color: rgba(217, 27, 66, 0.2);
     }
-    .percent-b{
+    .success{
         border-left: 4px solid #45c496;
         background-color: rgba(69, 196, 150, 0.2);
     }
